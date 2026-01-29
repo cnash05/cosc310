@@ -1,0 +1,20 @@
+array,random_access,1,988.50
+array,random_access,2,278.04
+array,random_access,3,273.83
+array,random_access,4,275.63
+array,random_access,5,275.88
+arraylist, random_access,1,8030.92
+arraylist, random_access,2,2734.21
+arraylist, random_access,3,627.29
+arraylist, random_access,4,538.13
+arraylist, random_access,5,427.96
+array,append,1,2215.67
+array,append,2,498.63
+array,append,3,351.79
+array,append,4,340.21
+array,append,5,411.88
+array,insert,1,2006.88
+array,insert,2,880.88
+array,insert,3,971.33
+array,insert,4,590.38
+array,insert,5,888.29
