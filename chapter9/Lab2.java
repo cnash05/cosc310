@@ -1,37 +1,54 @@
 package chapter9;
 
-import my.util.DLinkedList;
-
 public class Lab2 {
-    public static void main(String[] args) {
-        Stack<String> airports = new ArrayStack<>();
-        System.out.println(airports);
-        airports.push("BHM");
-        System.out.println(airports);
-        airports.push("ATL");
-        System.out.println(airports);
-        airports.push("MSP");
-        System.out.println(airports);
-        if (!airports.isEmpty()) {
-            String airport1 = airports.pop();
-            System.out.println(airports);
-            String airport2 = airports.pop();
-            System.out.println(airports);
+
+    public static void runStackTests(Stack<String> stack, String whichStack) throws Exception {
+        System.out.println(stack);
+        stack.push("BHM");
+        System.out.println(stack);
+        stack.push("ATL");
+        System.out.println(stack);
+        stack.push("MSP");
+        System.out.println(stack);
+        if (!stack.isEmpty()) {
+            String airport1 = stack.pop();
+            System.out.println(stack);
+            String airport2 = stack.pop();
+            System.out.println(stack);
             System.out.println(airport1);
             System.out.println(airport2);
-
         }
-        airports.pop(); 
-
-        DLinkedList<String> list = new DLinkedList<>();
-        System.out.println(list);
-        list.add("BHM");
-        System.out.println(list);
-        list.add("ATL");
-        System.out.println(list);
-        list.add("MSP");
-        System.out.println(list);
-
+        stack.pop();
     }
+    public static void runQueueTests(Queue<String> queue, String whichQueue) throws Exception {
+        System.out.println("Start of test on: " + whichQueue);
+        queue.enqueue("BHM");
+        queue.enqueue("ATL");
+        queue.enqueue("MSP");
+        System.out.println(queue.dequeue());
+        System.out.println(queue.size());
+    }
+    
+    public static void main(String[] args) throws Exception {
+        Stack<String> stack1 = new ArrayStack<>();
+        Stack<String> stack2 = new ListStack<>();
+        runStackTests(stack1, "ArrayStack");
+        runStackTests(stack2, "ListStack");
 
+        Queue<String> queue1 = new ArrayQueue<>();
+        runQueueTests(queue1, "ArrayQueue");
+
+        Queue<Integer> queue2 = new DLinkedListQueue<>();
+        for (int i = 0; i < 16; i++) {
+            queue2.enqueue(i);
+            
+            
+        }
+        queue2.dequeue();
+        queue2.enqueue(16);
+        queue2.enqueue(17);
+        for (int i=0; i<17; i++) {
+            System.out.print(queue2.dequeue() + " ");
+        }
+    }
 }
