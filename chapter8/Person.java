@@ -47,10 +47,10 @@ abstract public class Person {
         this.email = email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String toString() {
+        return getType() + ": " + getName();
     }
-    
 
 }
 

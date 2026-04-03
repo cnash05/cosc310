@@ -1,6 +1,7 @@
 package chapter13;
 
 public class Recursion {
+
     // returns -1 if not found
     // otherwise returns the index of the first occurrence
     public static int search(String needle, String haystack[]) {
@@ -25,12 +26,12 @@ public class Recursion {
     }
 
     public static int searchHelper(String needle, String haystack[], int i) {
-        if (haystack.length==0)
+        if (haystack.length==i)
             return -1;
-        else if(needle.equals(haystack[0]))
+        else if(needle.equals(haystack[i]))
             return i;
         else
-            return searchHelper(needle, java.util.Arrays.copyOfRange(haystack,1,haystack.length), i+1);
+            return searchHelper(needle, haystack, i+1);
     }
 
     public static int searchHelper2(String needle, String haystack[]) {
@@ -89,5 +90,4 @@ public class Recursion {
         System.out.println(sum(new int[]{1, 7, 8}));
         System.out.println(args.length);
     }
-    
 }

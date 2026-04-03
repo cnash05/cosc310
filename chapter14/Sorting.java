@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sorting {
+
     private static <T extends Comparable<T>> void swap(ArrayList<T> list, int i, int j) {
         T tmp = list.get(i);
         list.set(i, list.get(j));
@@ -108,5 +109,6 @@ public class Sorting {
         selectionSort(test);
         System.out.println(test);
     }
+
 
 }

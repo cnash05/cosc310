@@ -25,7 +25,7 @@ public class BankAccount
    public BankAccount(String acctno, double initialBalance)
    {  
       this.acctno = acctno;
-      balance = initialBalance;
+      this.balance = initialBalance;
    }
  
    /** 
@@ -54,7 +54,9 @@ public class BankAccount
    {  
       return balance; 
    }
+
    public String getAcctno() {
       return acctno;
    }
+
 }

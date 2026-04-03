@@ -1,5 +1,7 @@
 package json;
 
+import org.json.JSONArray;
+
 public class BikeDataRecord implements Comparable<BikeDataRecord>{
     // UTC timetamp as a Garmin timestamp - add this 631065600 to convert to UTC Time
     // Distance from the start of the ride (measured in meters)
@@ -15,7 +17,7 @@ public class BikeDataRecord implements Comparable<BikeDataRecord>{
     private long timestamp;
     private float distance;
     private int heartrate;
-    private float speed; // m/s
+    private float speed; // rider speed in m/s
     private float alt; // m
     private float lat; // m
     private float lng; // m
@@ -24,15 +26,101 @@ public class BikeDataRecord implements Comparable<BikeDataRecord>{
     private int degC; // m
     private int[][] radarArray = null; // no cars are coming or going so we can get the EXACT sized array when we parse in the data
 
+    //SORT CRITERIA - CHANGE THIS TO WHAT YOU WANT TO SORT BY - defaults to distance B/C already sorted by T 
+    public static int sortCriteria = 1; // 0-timestamp, 1-dois
+
     public BikeDataRecord(JSONArray recjson) {
         timestamp = Long.parseLong(recjson.getString(0));
         distance = Float.parseFloat(recjson.getString(1));
+        // you need to do indices 2-9
+        alt = Float.parseFloat(recjson.getString(4));
+
+        // now let's parse in the vehicle data (from the radar array)
+        JSONArray jsonRadarArray = recjson.getJSONArray(10);
+        if (jsonRadarArray.length()>0) {
+            radarArray = new int[jsonRadarArray.length()][2];
+            Iterator<Object> it = jsonRadarArray.iterator();
+            int ri = 0;
+            while (it.hasNext()) {
+                JSONArray vehData = (JSONArray) it.next();
+                radarArray[ri][0] = vehData.getInt(0); // read range (m) into position 0 
+                if (vehData.length()>1) {
+                    // radar disabled records  will have a -1 in position 0 for the radar array first entry
+                    radarArray[ri++][1] = vehData.getInt(1); // read speed (m/s) into position 1
+                }
+            }
+        }
+
     }
 
     @Override
     public int compareTo(BikeDataRecord o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+        switch (sortCriteria) {
+            case 0: return Long.compare(timestamp, o.timestamp); break;
+            case 1: return Float.compare(distance, o.distance); break;
+            case 2: return Long.compare(timestamp, o.timestamp); break;
+            case 3: return Long.compare(timestamp, o.timestamp); break;
+            case 4: return Long.compare(timestamp, o.timestamp); break;
+            case 5: return Long.compare(timestamp, o.timestamp); break;
+            case 6: return Long.compare(timestamp, o.timestamp); break;
+            case 7: return Long.compare(timestamp, o.timestamp); break;
+            case 8: return Long.compare(timestamp, o.timestamp); break;
+            case 9: return Long.compare(timestamp, o.timestamp); break;
+            case 10: return Long.compare(timestamp, o.timestamp); break;
+            default
+            return Float.compare(alt, o.alt);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "BikeDataRecord [timestamp=" + timestamp + ", distance=" + distance + ", heartrate=" + heartrate
+                + ", speed=" + speed + ", alt=" + alt + ", lat=" + lat + ", lng=" + lng + ", pow=" + pow
+                + ", cad=" + cad + ", degC=" + degC + "]";
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public int getHeartrate() {
+        return heartrate;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public float getAlt() {
+        return alt;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public float getLng() {
+        return lng;
+    }
+
+    public int getPow() {
+        return pow;
+    }
+
+    public int getCad() {
+        return cad;
+    }
+
+    public int getDegC() {
+        return degC;
+    }
+
+    public int[][] getRadarArray() {
+        return radarArray;
     }
 
 }
