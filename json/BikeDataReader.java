@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import org.json.JSONArray;
+
 public class BikeDataReader {
     public static ArrayList<BikeDataRecord> parse(String filepath) throws IOException, OutOfMemoryError {
         File f = new File(filepath);

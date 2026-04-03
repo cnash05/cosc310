@@ -1,8 +1,10 @@
 package json;
 
+import java.util.Iterator;
 import org.json.JSONArray;
 
 public class BikeDataRecord implements Comparable<BikeDataRecord>{
+
     // UTC timetamp as a Garmin timestamp - add this 631065600 to convert to UTC Time
     // Distance from the start of the ride (measured in meters)
     // Heartrate
@@ -23,17 +25,21 @@ public class BikeDataRecord implements Comparable<BikeDataRecord>{
     private float lng; // m
     private int pow; // m
     private int cad; // m
-    private int degC; // m
+    private float degC; // m
     private int[][] radarArray = null; // no cars are coming or going so we can get the EXACT sized array when we parse in the data
 
-    //SORT CRITERIA - CHANGE THIS TO WHAT YOU WANT TO SORT BY - defaults to distance B/C already sorted by T 
-    public static int sortCriteria = 1; // 0-timestamp, 1-dois
+    // SORT CRITERIA - CHANGE THIS TO WHAT YOU WANT TO SORT BY - DEFAULTS TO DISTANCE B/C ALREADY SORTED BY TIMESTAMP
+    public static int sortCriteria = 1; // 0-timestamp, 1-distance, 2-heartrate, 3-speed, etc...
 
     public BikeDataRecord(JSONArray recjson) {
         timestamp = Long.parseLong(recjson.getString(0));
         distance = Float.parseFloat(recjson.getString(1));
-        // you need to do indices 2-9
+        heartrate = Integer.parseInt(recjson.getString(2));
+
+        // you need to do indices 3-9, except for 4 which is already done for you below!
+        speed = Float.parseFloat(recjson.getString(3));
         alt = Float.parseFloat(recjson.getString(4));
+
 
         // now let's parse in the vehicle data (from the radar array)
         JSONArray jsonRadarArray = recjson.getJSONArray(10);
@@ -56,19 +62,19 @@ public class BikeDataRecord implements Comparable<BikeDataRecord>{
     @Override
     public int compareTo(BikeDataRecord o) {
         switch (sortCriteria) {
-            case 0: return Long.compare(timestamp, o.timestamp); break;
-            case 1: return Float.compare(distance, o.distance); break;
-            case 2: return Long.compare(timestamp, o.timestamp); break;
-            case 3: return Long.compare(timestamp, o.timestamp); break;
-            case 4: return Long.compare(timestamp, o.timestamp); break;
-            case 5: return Long.compare(timestamp, o.timestamp); break;
-            case 6: return Long.compare(timestamp, o.timestamp); break;
-            case 7: return Long.compare(timestamp, o.timestamp); break;
-            case 8: return Long.compare(timestamp, o.timestamp); break;
-            case 9: return Long.compare(timestamp, o.timestamp); break;
-            case 10: return Long.compare(timestamp, o.timestamp); break;
-            default
-            return Float.compare(alt, o.alt);
+            case 0: return Long.compare(timestamp, o.timestamp); 
+            case 1: return Float.compare(distance, o.distance); 
+            case 2: return Integer.compare(heartrate, o.heartrate); 
+            case 3: return Float.compare(speed, o.speed); 
+            case 4: return Float.compare(alt, o.alt); 
+            case 5: return Float.compare(lat, o.lat); 
+            case 6: return Float.compare(lng, o.lng); 
+            case 7: return Integer.compare(pow, o.pow); 
+            case 8: return Integer.compare(cad, o.cad); 
+            case 9: return Float.compare(degC, o.degC); 
+            case 10: return Integer.compare(radarArray.length, o.radarArray.length); 
+            default:
+                return Float.compare(alt, o.alt);
         }
     }
 
@@ -115,12 +121,14 @@ public class BikeDataRecord implements Comparable<BikeDataRecord>{
         return cad;
     }
 
-    public int getDegC() {
+    public float getDegC() {
         return degC;
     }
 
     public int[][] getRadarArray() {
         return radarArray;
     }
+
+    
 
 }
