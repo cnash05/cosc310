@@ -33,7 +33,7 @@ public class Lab3 {
         BikeDataRecord.sortCriteria = 2; 
         List<BikeDataRecord> sortedByHR = Sorting.mergeSort(allRecords);
 
-        // Simple search for high heart rate 
+        
         ArrayList<BikeDataRecord> highHR = Searching.binarySearchHRRange((ArrayList<BikeDataRecord>) sortedByHR, 150);
         for (BikeDataRecord r : sortedByHR) {
             if (r.getHeartrate() >= 150) {
