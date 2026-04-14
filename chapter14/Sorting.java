@@ -2,6 +2,7 @@ package chapter14;
 
 import java.util.ArrayList;
 import java.util.List;
+import json.BikeDataRecord;
 
 public class Sorting {
 
@@ -90,6 +91,55 @@ public class Sorting {
         for (;j<right.size();j++)
             sortedList.add(right.get(j));
         return sortedList;
+    }
+
+    public static List<BikeDataRecord> mergeSortCombined(List<BikeDataRecord> list) {
+        if (list.size() <= 1) return new ArrayList<>(list);
+        int mid = list.size() / 2;
+        List<BikeDataRecord> left = mergeSortCombined(list.subList(0, mid));
+        List<BikeDataRecord> right = mergeSortCombined(list.subList(mid, list.size()));
+        return mergeCombined(left, right);
+    }
+
+    private static List<BikeDataRecord> mergeCombined(List<BikeDataRecord> left, List<BikeDataRecord> right) {
+        ArrayList<BikeDataRecord> result = new ArrayList<>();
+        int i = 0, j = 0;
+        while (i < left.size() && j < right.size()) {
+            double leftComb = left.get(i).getHeartrate() * left.get(i).getAlt();
+            double rightComb = right.get(j).getHeartrate() * right.get(j).getAlt();
+            
+            if (leftComb >= rightComb) {        // ← This line ensures DESCENDING order
+                result.add(left.get(i++));
+            } else {
+                result.add(right.get(j++));
+            }
+        }
+        result.addAll(left.subList(i, left.size()));
+        result.addAll(right.subList(j, right.size()));
+        return result;
+    }
+
+    public static List<BikeDataRecord> mergeSortByHR(List<BikeDataRecord> list) {
+        if (list.size() <= 1) return new ArrayList<>(list);
+        int mid = list.size() / 2;
+        List<BikeDataRecord> left = mergeSortByHR(list.subList(0, mid));
+        List<BikeDataRecord> right = mergeSortByHR(list.subList(mid, list.size()));
+        return mergeByHR(left, right);
+    }
+
+    private static List<BikeDataRecord> mergeByHR(List<BikeDataRecord> left, List<BikeDataRecord> right) {
+        ArrayList<BikeDataRecord> result = new ArrayList<>();
+        int i = 0, j = 0;
+        while (i < left.size() && j < right.size()) {
+            if (left.get(i).getHeartrate() >= right.get(j).getHeartrate()) {
+                result.add(left.get(i++));
+            } else {
+                result.add(right.get(j++));
+            }
+        }
+        result.addAll(left.subList(i, left.size()));
+        result.addAll(right.subList(j, right.size()));
+        return result;
     }
 
     public static void main(String[] args) {

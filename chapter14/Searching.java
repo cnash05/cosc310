@@ -2,7 +2,6 @@ package chapter14;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import json.BikeDataRecord;
 
 public class Searching {
@@ -183,6 +182,33 @@ public class Searching {
 
     public static ArrayList<BikeDataRecord> binarySearch(ArrayList<BikeDataRecord> haystack, int needle, int index) {
         return binarySearch(haystack, 0, haystack.size()-1, needle, index);
+    }
+
+    public static ArrayList<BikeDataRecord> binarySearchHRRange(ArrayList<BikeDataRecord> haystack, int target) {
+        int low = 0;
+        int high = haystack.size() - 1;
+        int firstIndex = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (haystack.get(mid).getHeartrate() >= target) {
+                firstIndex = mid;
+                high= mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        if (firstIndex == -1) return new ArrayList<>();
+
+        ArrayList<BikeDataRecord> hits = new ArrayList<>();
+        for (int i = firstIndex; i < haystack.size(); i++) {
+            if (haystack.get(i).getHeartrate() >= target) {
+                hits.add(haystack.get(i));
+            } else {
+                break;
+            }
+        }
+        return hits;
     }
 
 }
